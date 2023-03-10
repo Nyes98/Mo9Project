@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-const LoginComp = ({ onChange }) => {
+type Props = {
+  onChange: () => void;
+};
+
+const LoginComp: React.FC<Props> = ({ onChange }) => {
   return (
     <Root>
       <Background>
@@ -29,7 +33,11 @@ const LoginComp = ({ onChange }) => {
             </div>
           </InputBox>
           <ForgotBtn>Forgot Password ?</ForgotBtn>
-          <input type="checkbox" onClick={(e) => onChange(e)} />
+          <CheckBox>
+            <input type="checkbox" onClick={onChange} />
+            Remember Me
+          </CheckBox>
+          <LoginBtn>Sign in</LoginBtn>
         </LoginWrap>
       </LoginBox>
     </Root>
@@ -37,6 +45,17 @@ const LoginComp = ({ onChange }) => {
 };
 
 export default LoginComp;
+
+const LoginBtn = styled.div`
+  background-color: purple;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+`;
+const CheckBox = styled.div`
+  color: white;
+`;
 
 const Root = styled.div`
   display: flex;

@@ -1,13 +1,23 @@
 import styled from "styled-components";
 
-const MainComp = () => {
+type Props = {
+  moveTo: (where: string) => void;
+};
+
+const MainComp: React.FC<Props> = ({ moveTo }) => {
   return (
     <>
       <Background></Background>
       <HeaderLine>
         <Header>
           <img src="/imgs/logo.png" alt="logo" />
-          <div>Log in</div>
+          <div
+            onClick={() => {
+              moveTo("login");
+            }}
+          >
+            Log in
+          </div>
         </Header>
       </HeaderLine>
 
