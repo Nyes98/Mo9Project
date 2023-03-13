@@ -7,6 +7,12 @@ module.exports = class User extends Sequelize.Model {
         userId: {
           type: Sequelize.STRING(64),
         },
+        userPw: {
+          type: Sequelize.STRING(64),
+        },
+        userEmail: {
+          type: Sequelize.STRING(64),
+        },
       },
       {
         sequelize,
