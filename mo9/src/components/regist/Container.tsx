@@ -1,18 +1,39 @@
-import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { registDropdown } from "../../redux/click";
+import { registDropdown, registMordal, registPass } from "../../redux/click";
 import { useAppSelector } from "../../redux/hooks";
 import RegistComp from "./Component";
-// import { signUpValidation } from "../../yup";
 
 const RegistContainer = () => {
+  const RegistMordal = useAppSelector(
+    (state) => state.registMordal.registMordal
+  );
+  const RegistPass = useAppSelector((state) => state.registPass.registPass);
+
   const dispatch = useDispatch();
 
-  const RegistMordal = () => {
+  const RegistDropdownFunc = () => {
     dispatch(registDropdown());
   };
 
-  return <RegistComp RegistMordal={RegistMordal}></RegistComp>;
+  const RegistMordalFunc = () => {
+    dispatch(registMordal());
+    console.log(RegistMordal);
+  };
+
+  const RegistPassFunc = () => {
+    dispatch(registPass());
+    dispatch(registDropdown());
+  };
+
+  return (
+    <RegistComp
+      RegistDropdownFunc={RegistDropdownFunc}
+      RegistMordalFunc={RegistMordalFunc}
+      RegistPassFunc={RegistPassFunc}
+      RegistMordal={RegistMordal}
+      RegistPass={RegistPass}
+    ></RegistComp>
+  );
 };
 
 export default RegistContainer;

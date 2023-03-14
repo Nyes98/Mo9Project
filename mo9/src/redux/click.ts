@@ -1,24 +1,33 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ClickState {
-  value: boolean;
+  registDropdown: boolean;
+  registMordal: boolean;
+  registPass: boolean;
 }
 
 const initialState: ClickState = {
-  value: false,
+  registDropdown: false,
+  registMordal: false,
+  registPass: false,
 };
 
 export const clickSlice = createSlice({
-  name: "registMordal",
+  name: "registClick",
   initialState,
 
   reducers: {
     registDropdown: (state) => {
-      state.value = !state.value;
+      return { ...state, registDropdown: !state.registDropdown };
+    },
+    registMordal: (state) => {
+      state.registMordal = !state.registMordal;
+    },
+    registPass: (state) => {
+      state.registPass = !state.registPass;
     },
   },
 });
 
-export const { registDropdown } = clickSlice.actions;
+export const { registDropdown, registMordal, registPass } = clickSlice.actions;
 export default clickSlice.reducer;

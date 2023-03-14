@@ -3,14 +3,20 @@ import RegistContainer from "../regist/Container";
 
 type Props = {
   onChange: () => void;
-  RegistMordal: () => void;
+  RegistDropdownFunc: () => void;
   RegistDropdown: boolean;
+  setId: (e: any) => void;
+  setPw: (e: any) => void;
+  login: () => void;
 };
 
 const LoginComp: React.FC<Props> = ({
   onChange,
-  RegistMordal,
+  RegistDropdownFunc,
   RegistDropdown,
+  setId,
+  setPw,
+  login,
 }) => {
   return (
     <Root>
@@ -24,19 +30,19 @@ const LoginComp: React.FC<Props> = ({
             <div>Sign In</div>
             <div>Log in with your credentials.</div>
           </TitleBox>
-          <InputTitle>Email</InputTitle>
+          <InputTitle>ID</InputTitle>
           <InputBox>
             <div>
               <img src="/imgs/letter.svg" alt="letter" />
             </div>
-            <input type="text" />
+            <input type="text" onChange={setId} />
           </InputBox>
           <InputTitle>Password</InputTitle>
           <InputBox>
             <div>
               <img src="/imgs/lock.svg" alt="letter" />
             </div>
-            <input type="text" />
+            <input type="text" onChange={setPw} />
             <div>
               <img src="/imgs/eye-slash.svg" alt="letter" />
             </div>
@@ -46,7 +52,7 @@ const LoginComp: React.FC<Props> = ({
             <input type="checkbox" onClick={onChange} />
             Remember Me
           </CheckBox>
-          <LoginBtn>Sign in</LoginBtn>
+          <LoginBtn onClick={login}>Sign in</LoginBtn>
           <AgreeBox>
             By logging in, you agree to all
             <div>our Terms & Conditions</div>
@@ -54,7 +60,7 @@ const LoginComp: React.FC<Props> = ({
         </LoginWrap>
         <SignUp>
           Not a member?
-          <div onClick={RegistMordal}>Register</div>
+          <div onClick={RegistDropdownFunc}>Register</div>
         </SignUp>
         ``
       </LoginBox>

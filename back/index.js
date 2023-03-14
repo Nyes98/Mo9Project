@@ -7,15 +7,13 @@ const cors = require("cors");
 const path = require("path");
 
 const db = require("./models/index.js");
-const { sequelize } = require("./models/index.js");
+const routes = require("./routes");
 
-const routes = require("./routes/index.js");
+dotenv.config();
 
 const app = express();
 
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-dotenv.config();
 
 app.set("port", process.env.PORT || 8080);
 
@@ -41,6 +39,8 @@ app.use(
   })
 );
 
+app.use("/api", routes);
+
 db.sequelize
   .sync({ force: false })
   .then(() => {
@@ -49,8 +49,6 @@ db.sequelize
   .catch((err) => {
     console.error(err);
   });
-
-app.use("/api", routes);
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port") + "번 포트에 서버 오픈");

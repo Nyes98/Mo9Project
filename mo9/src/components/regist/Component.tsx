@@ -1,34 +1,46 @@
 import styled from "styled-components";
 import * as yup from "yup";
+import { ErrorMsg } from "../../redux/mordal";
 import { useForm, FieldErrors } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { userRegist } from "../../api";
+import RegistErrorMordalContainer from "../mordal/RegistError/Container";
+import RegistPassMordalContainer from "../mordal/RegistPass/Container";
+import { useDispatch } from "react-redux";
 
 type Props = {
-  RegistMordal: () => void;
-  //   InputId: (e: any) => void;
-  //   InputPw: (e: any) => void;
-  //   InputPwRepeat: (e: any) => void;
-  //   InputEmail: (e: any) => void;
+  RegistDropdownFunc: () => void;
+  RegistMordalFunc: () => void;
+  RegistPassFunc: () => void;
+  RegistMordal: boolean;
+  RegistPass: boolean;
 };
 
 const RegistComp: React.FC<Props> = ({
+  RegistMordalFunc,
+  RegistDropdownFunc,
+  RegistPassFunc,
   RegistMordal,
-  // InputId,
-  // InputPw,
-  // InputPwRepeat,
-  // InputEmail,
+  RegistPass,
 }) => {
+  const dispatch = useDispatch();
+
   const formSchema = yup.object({
     userId: yup
       .string()
       .required("아이디를 입력해주세요.")
       .max(12, "아이디는 12자리 이하여야 합니다.")
-      .min(4, "아이디는 4자리 이상이어야 합니다."),
+      .min(4, "아이디는 4자리 이상이어야 합니다.")
+      .matches(/^[A-Za-z\d]{4,15}$/, "영문 또는 숫자만 사용 가능합니다."),
     userPw: yup
       .string()
       .required("비밀번호를 입력해주세요.")
       .max(15, "비밀번호는 15자리 이하여야 합니다.")
-      .min(4, "비밀번호는 4자리 이상이어야 합니다."),
+      .min(4, "비밀번호는 4자리 이상이어야 합니다.")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,15}$/,
+        "영문과 숫자를 반드시 포함해주세요."
+      ),
     userPwRepeat: yup
       .string()
       .oneOf([yup.ref("userPw")], "비밀번호가 일치하지 않습니다."),
@@ -53,7 +65,17 @@ const RegistComp: React.FC<Props> = ({
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = async (data: any) => {
+    console.log(data);
+    const user = await userRegist(data);
+    console.log(user.data.msg);
+    if (user.data.status != 200) {
+      RegistMordalFunc();
+      dispatch(ErrorMsg(user.data.msg));
+    } else {
+      RegistPassFunc();
+    }
+  };
   return (
     <Root>
       <Background></Background>
@@ -64,37 +86,56 @@ const RegistComp: React.FC<Props> = ({
             <InputTitle>ID</InputTitle>
             <InputBox>
               <div>
-                <input type="text" {...register("userId")} />
+                <input
+                  type="text"
+                  {...register("userId")}
+                  onInput={(e: any) => {}}
+                />
               </div>
-              {errors.userId && <div>{errors.userId.message}</div>}
+              {errors.userId && (
+                <ErrorMsgBox>{errors.userId.message}</ErrorMsgBox>
+              )}
             </InputBox>
-            <InputTitle>PassWord</InputTitle>
+            <InputTitle>Password</InputTitle>
             <InputBox>
               <div>
                 <input type="password" {...register("userPw")} />
               </div>
-              {errors.userPw && <div>{errors.userPw.message}</div>}
+              {errors.userPw && (
+                <ErrorMsgBox>{errors.userPw.message}</ErrorMsgBox>
+              )}
             </InputBox>
-            <InputTitle>PassWord Repeat</InputTitle>
+            <InputTitle>Password repeat</InputTitle>
             <InputBox>
               <input type="password" {...register("userPwRepeat")} />
-              {errors.userPwRepeat && <div>{errors.userPwRepeat.message}</div>}
+              {errors.userPwRepeat && (
+                <ErrorMsgBox>{errors.userPwRepeat.message}</ErrorMsgBox>
+              )}
             </InputBox>
             <InputTitle>E-mail</InputTitle>
             <InputBox>
               <input type="text" {...register("email")} />
-              {errors.email && <div>{errors.email.message}</div>}
+              {errors.email && (
+                <ErrorMsgBox>{errors.email.message}</ErrorMsgBox>
+              )}
             </InputBox>
+            <RegistBtn>Regist</RegistBtn>
           </form>
-          <RegistBtn>Sign in</RegistBtn>
-          <BackBtn onClick={RegistMordal}>Cancle</BackBtn>
+          <BackBtn onClick={RegistDropdownFunc}>Cancle</BackBtn>
         </Formbox>
       </RegistBox>
+      {RegistMordal ? <RegistErrorMordalContainer /> : <></>}
+      {RegistPass ? <RegistPassMordalContainer /> : <></>}
     </Root>
   );
 };
 
 export default RegistComp;
+
+const Mordal = styled.div``;
+const ErrorMsgBox = styled.div`
+  position: absolute;
+`;
 
 const Formbox = styled.div`
   width: 80%;
@@ -103,23 +144,19 @@ const Formbox = styled.div`
 
 const InputTitle = styled.div`
   color: white;
-  font-size: 1.1rem;
-  margin: 10px 0;
+  font-size: 0.9rem;
+  margin: 2px 0;
 `;
 const InputBox = styled.div`
   color: red;
+  margin-bottom: 30px;
   input {
-    padding: 10px 0;
-    width: 99%;
+    padding: 10px 5px;
+    width: 96%;
     border-radius: 10px;
   }
   input:focus {
     outline: none;
-  }
-
-  p {
-    font-size: 1rem;
-    color: pink;
   }
 `;
 
@@ -127,19 +164,22 @@ const Root = styled.div`
   display: flex;
 `;
 
-const RegistBtn = styled.div`
+const RegistBtn = styled.button`
   color: white;
-  margin: 30px auto 10px auto;
-  padding: 8px 0;
+  margin: 20px auto 0 auto;
+  width: 100%;
+  padding: 13px;
   text-align: center;
   border-radius: 10px;
   background-color: #6256f2;
+  border: none;
 `;
 const BackBtn = styled.div`
-  padding: 8px 0;
   border-radius: 10px;
+  padding: 10px;
+
   text-align: center;
-  margin: 10px auto;
+  margin: 10px auto 0 auto;
   background-color: #ff0000;
 `;
 const Triangle = styled.div`
