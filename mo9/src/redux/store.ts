@@ -9,6 +9,7 @@ export const store = configureStore({
     registDropdown: clickReducer,
     registMordal: clickReducer,
     registPass: clickReducer,
+
     ErrorMsg: mordalReducer,
   },
 });

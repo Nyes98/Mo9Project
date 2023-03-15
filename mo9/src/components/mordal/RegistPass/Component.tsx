@@ -38,6 +38,7 @@ const Title = styled.div`
 
   button {
     position: absolute;
+    border-radius: 5px;
     right: 5px;
     top: 5px;
     border: none;
@@ -57,8 +58,8 @@ const Mordal = styled.div`
   position: fixed;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 400px;
-  height: 200px;
+  width: 800px;
+  height: 400px;
   margin: auto;
   top: 0;
   bottom: 0;

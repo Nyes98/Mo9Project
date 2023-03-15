@@ -4,12 +4,14 @@ export interface ClickState {
   registDropdown: boolean;
   registMordal: boolean;
   registPass: boolean;
+  loginMordal: boolean;
 }
 
 const initialState: ClickState = {
   registDropdown: false,
   registMordal: false,
   registPass: false,
+  loginMordal: false,
 };
 
 export const clickSlice = createSlice({
@@ -18,7 +20,7 @@ export const clickSlice = createSlice({
 
   reducers: {
     registDropdown: (state) => {
-      return { ...state, registDropdown: !state.registDropdown };
+      state.registDropdown = !state.registDropdown;
     },
     registMordal: (state) => {
       state.registMordal = !state.registMordal;

@@ -39,6 +39,7 @@ const Title = styled.div`
 
   button {
     position: absolute;
+    border-radius: 5px;
     right: 5px;
     top: 5px;
     border: none;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import RegistErrorMordalContainer from "../mordal/RegistError/Container";
 import RegistContainer from "../regist/Container";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   setId: (e: any) => void;
   setPw: (e: any) => void;
   login: () => void;
+  RegistMordal: boolean;
 };
 
 const LoginComp: React.FC<Props> = ({
@@ -17,6 +19,7 @@ const LoginComp: React.FC<Props> = ({
   setId,
   setPw,
   login,
+  RegistMordal,
 }) => {
   return (
     <Root>
@@ -42,7 +45,7 @@ const LoginComp: React.FC<Props> = ({
             <div>
               <img src="/imgs/lock.svg" alt="letter" />
             </div>
-            <input type="text" onChange={setPw} />
+            <input type="password" onChange={setPw} />
             <div>
               <img src="/imgs/eye-slash.svg" alt="letter" />
             </div>
@@ -62,7 +65,11 @@ const LoginComp: React.FC<Props> = ({
           Not a member?
           <div onClick={RegistDropdownFunc}>Register</div>
         </SignUp>
-        ``
+        {RegistMordal ? (
+          <RegistErrorMordalContainer></RegistErrorMordalContainer>
+        ) : (
+          <></>
+        )}
       </LoginBox>
 
       <RegistBox RegistDropdown={RegistDropdown}>
@@ -94,7 +101,7 @@ const SignUp = styled.div`
 `;
 const AgreeBox = styled.div`
   display: flex;
-  margin: 30px 0;
+  margin: 70px 0 5px 0;
   justify-content: center;
   color: #c3c5cc;
 
