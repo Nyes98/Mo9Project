@@ -4,9 +4,11 @@ import { move } from "../../redux/move";
 import MainComp from "./Component";
 import { useEffect } from "react";
 import { useAppSelector } from "../../redux/hooks";
+import { autoLogin, logout } from "../../api";
+import { curUser } from "../../redux/user";
 
 const MainContainer = () => {
-  const moveAd = useAppSelector((state) => state.move.value);
+  const loginedUser = useAppSelector((state) => state.curUser.userId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -14,16 +16,27 @@ const MainContainer = () => {
     navigate(`/${where}`);
   };
 
-  const test = async () => {
-    dispatch(move("hi"));
-    console.log(moveAd);
+  const Logout = async () => {
+    logout();
+    dispatch(curUser(""));
+  };
+
+  const checkCookie = async () => {
+    const data = await autoLogin();
+    dispatch(curUser(data.data.userId));
   };
 
   useEffect(() => {
-    test();
-  });
+    checkCookie();
+  }, [loginedUser]);
 
-  return <MainComp moveTo={moveTo}></MainComp>;
+  return (
+    <MainComp
+      moveTo={moveTo}
+      loginedUser={loginedUser}
+      Logout={Logout}
+    ></MainComp>
+  );
 };
 
 export default MainContainer;

@@ -43,22 +43,17 @@ router.post("/login", async (req, res) => {
           },
         })
       ) {
-        console.log("이건된다니까");
-        // res.cookie(
-        //   "user_login",
-        //   jwt.sign(
-        //     {
-        //       userId: req.body.inputId,
-        //     },
-        //     process.env.COOKIE_SECRET
-        //   ),
-        //   {
-        //     // expires: new Date(Date.now() + 1000 * 60 * 300),
-        //   }
-        // );
-        res.cookie("key", 1);
-        res.end();
-        // res.send({ status: 200 });
+        res.cookie(
+          "user_login",
+          jwt.sign(
+            {
+              userId: req.body.inputId,
+            },
+            process.env.COOKIE_SECRET
+          ),
+          { expires: new Date(Date.now() + 1000 * 60 * 30) }
+        );
+        res.send({ status: 200 });
       } else {
         res.send({
           status: 401,
@@ -74,6 +69,20 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
   }
+});
+
+router.post("/autologin", (req, res) => {
+  if (req.cookies["user_login"]) {
+    userInfo = jwt.verify(req.cookies.user_login, process.env.COOKIE_SECRET);
+    res.send(userInfo);
+  } else {
+    res.end();
+  }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("user_login");
+  res.end();
 });
 
 module.exports = router;

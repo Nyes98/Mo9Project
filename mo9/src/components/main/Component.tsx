@@ -2,22 +2,30 @@ import styled from "styled-components";
 
 type Props = {
   moveTo: (where: string) => void;
+  Logout: () => void;
+  loginedUser: string;
 };
 
-const MainComp: React.FC<Props> = ({ moveTo }) => {
+const MainComp: React.FC<Props> = ({ moveTo, loginedUser, Logout }) => {
   return (
     <>
       <Background></Background>
       <HeaderLine>
         <Header>
           <img src="/imgs/logo.png" alt="logo" />
-          <div
-            onClick={() => {
-              moveTo("login");
-            }}
-          >
-            Log in
-          </div>
+          {loginedUser ? (
+            <UserProfile>
+              {loginedUser} 님 어서오세요 <div onClick={Logout}>Log Out</div>
+            </UserProfile>
+          ) : (
+            <div
+              onClick={() => {
+                moveTo("login");
+              }}
+            >
+              Log in
+            </div>
+          )}
         </Header>
       </HeaderLine>
 
@@ -32,6 +40,13 @@ const MainComp: React.FC<Props> = ({ moveTo }) => {
 };
 
 export default MainComp;
+
+const UserProfile = styled.div`
+  div {
+    margin-left: 10px;
+    color: red;
+  }
+`;
 
 const MainText = styled.div`
   position: absolute;
