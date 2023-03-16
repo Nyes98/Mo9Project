@@ -10,7 +10,7 @@ type Props = {
   setPw: (e: any) => void;
   login: () => void;
   RegistMordal: boolean;
-  autoInput: string;
+  inputId: string;
 };
 
 const LoginComp: React.FC<Props> = ({
@@ -21,7 +21,7 @@ const LoginComp: React.FC<Props> = ({
   setPw,
   login,
   RegistMordal,
-  autoInput,
+  inputId,
 }) => {
   return (
     <Root>
@@ -41,7 +41,7 @@ const LoginComp: React.FC<Props> = ({
               <img src="/imgs/letter.svg" alt="letter" />
             </div>
 
-            <input type="text" onChange={setId} defaultValue={autoInput} />
+            <input type="text" onChange={setId} defaultValue={inputId} />
           </InputBox>
           <InputTitle>Password</InputTitle>
           <InputBox>

@@ -9,7 +9,6 @@ import LoginComp from "./Component";
 
 const LoginContainer = () => {
   const [remember, setRemember] = useState(false);
-  const [autoInput, setAutoInput] = useState("");
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
 
@@ -36,7 +35,7 @@ const LoginContainer = () => {
   const checkCookie = async () => {
     const data = await rememberIdInput();
     console.log("이게데이타", data);
-    setAutoInput(data.data.userId);
+    setInputId(data.data.userId);
   };
 
   const login = async () => {
@@ -76,7 +75,7 @@ const LoginContainer = () => {
       setId={setId}
       setPw={setPw}
       login={login}
-      autoInput={autoInput}
+      inputId={inputId}
     ></LoginComp>
   );
 };
