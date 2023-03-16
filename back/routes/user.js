@@ -80,8 +80,31 @@ router.post("/autologin", (req, res) => {
   }
 });
 
+router.post("/rememberId", (req, res) => {
+  if (req.cookies["remember_ID"]) {
+    userInfo = jwt.verify(req.cookies.remember_ID, process.env.COOKIE_SECRET);
+    res.send(userInfo);
+  } else {
+    res.end();
+  }
+});
+
 router.post("/logout", (req, res) => {
   res.clearCookie("user_login");
+  res.end();
+});
+
+router.post("/remember", (req, res) => {
+  res.cookie(
+    "remember_ID",
+    jwt.sign(
+      {
+        userId: req.body.inputId,
+      },
+      process.env.COOKIE_SECRET
+    ),
+    { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) }
+  );
   res.end();
 });
 

@@ -23,3 +23,11 @@ export const autoLogin = async () => {
 export const logout = async () => {
   return await request.post("/user/logout");
 };
+
+export const rememberID = async (inputId: string) => {
+  return await request.post("/user/remember", { inputId: inputId });
+};
+
+export const rememberIdInput = async () => {
+  return await request.post("/user/rememberId");
+};
