@@ -11,6 +11,8 @@ type Props = {
   login: () => void;
   RegistMordal: boolean;
   inputId: string;
+  hide: boolean;
+  hideClick: () => void;
 };
 
 const LoginComp: React.FC<Props> = ({
@@ -22,6 +24,8 @@ const LoginComp: React.FC<Props> = ({
   login,
   RegistMordal,
   inputId,
+  hideClick,
+  hide,
 }) => {
   return (
     <Root>
@@ -48,9 +52,9 @@ const LoginComp: React.FC<Props> = ({
             <div>
               <img src="/imgs/lock.svg" alt="letter" />
             </div>
-            <input type="password" onChange={setPw} />
+            <input type={hide ? "password" : "text"} onChange={setPw} />
             <div>
-              <img src="/imgs/eye-slash.svg" alt="letter" />
+              <img src="/imgs/eye-slash.svg" alt="letter" onClick={hideClick} />
             </div>
           </InputBox>
           <ForgotBtn>Forgot Password ?</ForgotBtn>

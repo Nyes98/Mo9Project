@@ -11,6 +11,7 @@ const LoginContainer = () => {
   const [remember, setRemember] = useState(false);
   const [inputId, setInputId] = useState("");
   const [inputPw, setInputPw] = useState("");
+  const [hide, setHide] = useState(true);
 
   const navigate = useNavigate();
 
@@ -30,6 +31,10 @@ const LoginContainer = () => {
 
   const setPw = (e: any) => {
     setInputPw(e.target.value);
+  };
+
+  const hideClick = () => {
+    setHide(!hide);
   };
 
   const checkCookie = async () => {
@@ -76,6 +81,8 @@ const LoginContainer = () => {
       setPw={setPw}
       login={login}
       inputId={inputId}
+      hide={hide}
+      hideClick={hideClick}
     ></LoginComp>
   );
 };
