@@ -48,7 +48,7 @@ const LoginComp: React.FC<Props> = ({
             <input type="text" onChange={setId} defaultValue={inputId} />
           </InputBox>
           <InputTitle>Password</InputTitle>
-          <InputBox>
+          <InputBox hide={hide}>
             <div>
               <img src="/imgs/lock.svg" alt="letter" />
             </div>
@@ -154,7 +154,7 @@ const InputTitle = styled.div`
   margin-top: 40px;
   color: #c3c5cc;
 `;
-const InputBox = styled.div`
+const InputBox: React.FC = styled.div`
   display: flex;
   border: 3px solid gray;
   border-radius: 10px;
